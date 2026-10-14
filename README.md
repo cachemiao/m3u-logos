@@ -3,8 +3,9 @@
 电视与广播台标资源库，供 IPTV 播放器、M3U Studio 和其他工具下载、引用。
 
 当前已从维护者本地素材导入并整理 **1,251 个电视台标、41 个广播台标，共 1,292 个**。
-**尚未创建 GitHub 远程仓库，尚未公开发布**。资源使用条件待维护者确认。
-计划仓库名：`cachemiao/logos`。与 `Jennie567/icon` 独立维护，不做自动同步。
+GitHub 公共仓库已创建：[cachemiao/logos](https://github.com/cachemiao/logos)。
+当前内容已在本地整理，等待首次上传。资源使用条件待维护者确认。
+与 `Jennie567/icon` 独立维护，不做自动同步。
 第一版通过 GitHub 文件直链与下载包分发，暂不配置 Cloudflare Pages 或域名。
 
 ## 目录
@@ -70,7 +71,7 @@ python scripts/build.py
 
 ## 公开引用（发布后使用）
 
-以下是规划链接，远程仓库尚未创建，当前不能作为可用资源：
+首次上传完成后可使用以下地址；当前远程仓库仍为空：
 
 ```text
 https://raw.githubusercontent.com/cachemiao/logos/main/tv/CCTV1.png
