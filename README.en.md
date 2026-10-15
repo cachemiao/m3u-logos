@@ -7,7 +7,7 @@
 <p align="center">TV & Radio Channel Logo Library</p>
 
 <p align="center">
-  <a href="tv"><img src="https://img.shields.io/badge/logos-1292-0f766e" alt="1,292 logos"></a>
+  <a href="tv"><img src="https://img.shields.io/badge/logos-TV%20%26%20Radio-0f766e" alt="TV &amp; Radio logos"></a>
   <a href="tv"><img src="https://img.shields.io/badge/PNG-300%C3%97180-0f766e" alt="PNG 300×180"></a>
   <a href="LICENSE"><img src="https://img.shields.io/badge/code-GPL--2.0--only-orange" alt="Code: GPL-2.0-only"></a>
   <a href="https://github.com/cachemiao/m3u-logos/stargazers"><img src="https://img.shields.io/github/stars/cachemiao/m3u-logos?style=flat&amp;color=0f766e" alt="GitHub Stars"></a>
@@ -17,7 +17,7 @@
 
 <p align="center"><a href="README.md">简体中文</a> · <strong>English</strong></p>
 
-A **TV and radio channel logo library** for IPTV players, playlist editors and other tools. It contains **1,251 TV logos and 41 radio logos — 1,292 in total**, provided as **300×180 PNG** images with public **JSON indexes**.
+A **TV and radio channel logo library** for IPTV players, playlist editors and other tools. It provides **300×180 PNG** images with public **JSON indexes**.
 
 The scripts are licensed under **GNU GPL v2.0 (GPL-2.0-only)**. Image usage conditions are described in the [resource policy](RESOURCE_POLICY.md). To report incorrect logos, source information or rights concerns, please [open an issue](https://github.com/cachemiao/m3u-logos/issues).
 
