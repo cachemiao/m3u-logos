@@ -39,9 +39,12 @@ function compact(value) {
 function prepare(logo) {
   const segments = logo.path.replace(/^\/+/, "").split("/");
   const encoded = segments.map(encodeURIComponent).join("/");
+  // Keep Han characters readable in copied URLs while escaping spaces and punctuation.
+  const readable = segments.map(segment => segment.replace(/[^\p{Script=Han}]+/gu, encodeURIComponent)).join("/");
   const file = segments.at(-1);
   const terms = [logo.name, file, logo.category, ...logo.aliases].map(normalize);
-  return { logo, file, terms, compactTerms: terms.map(compact), local: "./" + encoded, raw: RAW_BASE + encoded };
+  return { logo, file, terms, compactTerms: terms.map(compact), local: "./" + encoded,
+    raw: RAW_BASE + encoded, copyText: RAW_BASE + readable };
 }
 
 function compareFilenames(a, b) {
@@ -89,7 +92,7 @@ function detailField(field, value) {
 }
 
 function showDetails(entry) {
-  const { logo, file, local, raw } = entry;
+  const { logo, file, local, raw, copyText } = entry;
   setImage(detail.querySelector(".detail-image"), entry);
   detail.querySelector("#detail-title").textContent = logo.name;
   detailField("category", logo.category === "tv" ? "TV · 电视" : "Radio · 广播");
@@ -98,12 +101,12 @@ function showDetails(entry) {
   detailField("source", logo.source);
   detailField("usage", logo.usage);
 
-  detail.querySelector("#detail-url").value = raw;
+  detail.querySelector("#detail-url").value = copyText;
   detail.querySelector("#original").href = raw;
   const download = detail.querySelector("#download");
   download.href = local;
   download.download = file;
-  detailCopy.dataset.url = raw;
+  detailCopy.dataset.url = copyText;
   clearTimeout(copyTimers.get(detailCopy));
   detailCopy.textContent = "Copy URL";
   detail.showModal();
@@ -121,7 +124,7 @@ function makeCard(entry) {
   name.addEventListener("click", () => showDetails(entry));
   const copy = card.querySelector(".copy");
   copy.setAttribute("aria-label", "Copy URL · " + entry.logo.name);
-  copy.addEventListener("click", () => copyUrl(entry.raw, copy));
+  copy.addEventListener("click", () => copyUrl(entry.copyText, copy));
   return card;
 }
 
