@@ -43,6 +43,19 @@ class CatalogTests(unittest.TestCase):
         aliases = json.loads((self.root / "data/aliases.json").read_text())
         self.assertEqual(aliases["aliases"]["tv"]["one"], "one")
 
+    def test_build_includes_gallery_and_keeps_catalog_paths(self):
+        self.write([self.add()])
+        site = self.root / "site"
+        site.mkdir()
+        (site / "index.html").write_text("<title>Gallery</title>", encoding="utf-8")
+        build(self.root)
+        dist = self.root / "dist"
+        self.assertEqual((dist / "index.html").read_text(), "<title>Gallery</title>")
+        self.assertTrue((dist / "tv/One.png").is_file())
+        for name in ("logos.json", "aliases.json", "stats.json"):
+            self.assertEqual((dist / "api/v1" / name).read_bytes(),
+                             (self.root / "data" / name).read_bytes())
+
     def test_alias_conflict(self):
         self.write([self.add(), self.add("two", "Two.png", "one")])
         self.assertTrue(collect(self.root)[1])

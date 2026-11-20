@@ -21,6 +21,9 @@ def build(root=ROOT):
              "radio": sum(x["category"] == "radio" for x in logos), "built_at": timestamp}
     with tempfile.TemporaryDirectory(prefix=".build-", dir=root) as temporary:
         output = Path(temporary)
+        site = root / "site"
+        if site.is_dir():
+            shutil.copytree(site, output, dirs_exist_ok=True)
         api = output / "api/v1"
         api.mkdir(parents=True)
         for filename, content in {

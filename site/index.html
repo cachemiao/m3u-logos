@@ -1,0 +1,105 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="搜索、预览和下载电视与广播台标，或复制原图链接。">
+  <meta name="color-scheme" content="light dark">
+  <title>M3U Logos · 电视与广播台标库</title>
+  <link rel="stylesheet" href="./gallery.css">
+  <script type="module" src="./gallery.js"></script>
+</head>
+<body>
+  <header class="top">
+    <div class="shell top-inner">
+      <a class="brand" href="./"><span class="mark" aria-hidden="true">▶</span>M3U Logos</a>
+      <a class="repo-link" href="https://github.com/cachemiao/m3u-logos">GitHub <span aria-hidden="true">↗</span></a>
+    </div>
+  </header>
+  <main class="shell">
+    <section class="hero" aria-labelledby="title">
+      <div class="hero-copy">
+        <h1 id="title">M3U <span>Logos</span></h1>
+        <p class="subtitle" lang="en">TV &amp; Radio Logo Collection</p>
+        <p class="intro">查找电视与广播台标，预览、下载或复制原图链接。</p>
+      </div>
+      <div class="hero-stats" aria-label="资源统计">
+        <div><strong id="tv-total">—</strong><span>电视 <span lang="en">TV</span></span></div>
+        <div><strong id="radio-total">—</strong><span>广播 <span lang="en">Radio</span></span></div>
+      </div>
+    </section>
+
+    <section class="gallery" aria-labelledby="gallery-title">
+      <div class="gallery-heading">
+        <h2 id="gallery-title">台标库</h2>
+        <p id="results" role="status">正在加载台标…</p>
+      </div>
+      <div class="controls">
+        <div class="categories" role="group" aria-label="台标分类">
+          <button type="button" data-category="all" aria-pressed="true">All</button>
+          <button type="button" data-category="tv" aria-pressed="false">TV</button>
+          <button type="button" data-category="radio" aria-pressed="false">Radio</button>
+        </div>
+        <label class="search">
+          <svg aria-hidden="true" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.75"><circle cx="10.75" cy="10.75" r="6.25"/><path d="m15.5 15.5 4 4"/></svg>
+          <input id="search" type="search" aria-label="搜索频道名称、别名或文件名" placeholder="搜索频道名称、别名或文件名">
+        </label>
+      </div>
+      <noscript><p class="message">请启用 JavaScript 以浏览台标。</p></noscript>
+      <p class="message" id="message" hidden></p>
+      <ul id="grid" class="grid" aria-label="台标"></ul>
+      <div id="pagination" class="pagination" hidden>
+        <button id="more" class="action" type="button">加载更多</button>
+      </div>
+    </section>
+  </main>
+  <footer class="shell footer">
+    <span>M3U Logos</span>
+    <a href="https://github.com/cachemiao/m3u-logos/blob/main/RESOURCE_POLICY.md">资源使用说明</a>
+    <a href="https://github.com/cachemiao/m3u-logos/issues">问题反馈</a>
+  </footer>
+
+  <template id="card">
+    <li class="card">
+      <a class="preview" target="_blank" rel="noopener">
+        <img alt="" loading="lazy" decoding="async" width="300" height="180">
+        <span class="unavailable" hidden>图片暂不可用</span>
+      </a>
+      <div class="card-info">
+        <button class="name" type="button"></button>
+        <button class="copy" type="button" lang="en">Copy URL</button>
+      </div>
+    </li>
+  </template>
+
+  <dialog id="detail" aria-labelledby="detail-title">
+    <form method="dialog" class="dialog-bar"><button class="close action" aria-label="关闭详情" autofocus>×</button></form>
+    <div class="preview detail-image">
+      <img alt="" decoding="async" width="300" height="180">
+      <span class="unavailable" hidden>图片暂不可用</span>
+    </div>
+    <h2 id="detail-title"></h2>
+    <dl class="metadata">
+      <dt>分类</dt><dd id="detail-category"></dd>
+      <dt>文件名</dt><dd id="detail-file"></dd>
+      <dt>图片尺寸</dt><dd id="detail-size"></dd>
+      <dt>来源</dt><dd id="detail-source"></dd>
+      <dt>使用说明</dt><dd id="detail-usage"></dd>
+    </dl>
+    <label class="url-field" for="detail-url">Raw URL</label>
+    <input id="detail-url" class="url-input" readonly>
+    <div class="detail-actions">
+      <button id="detail-copy" class="action primary" type="button" lang="en">Copy URL</button>
+      <a id="download" class="action" lang="en" download>Download PNG</a>
+      <a id="original" class="action" target="_blank" rel="noopener">打开原图 ↗</a>
+    </div>
+  </dialog>
+  <dialog id="manual" aria-labelledby="manual-title">
+    <form method="dialog" class="dialog-bar"><button class="close action" aria-label="关闭复制窗口">×</button></form>
+    <h2 id="manual-title">手动复制链接</h2>
+    <label class="url-field" for="manual-url">请选择并复制以下 Raw URL。</label>
+    <input id="manual-url" class="url-input" readonly>
+  </dialog>
+  <p class="sr-only" id="copy-status" role="status"></p>
+</body>
+</html>
