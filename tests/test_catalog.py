@@ -5,6 +5,7 @@ import subprocess
 import sys
 import tempfile
 import unittest
+from hashlib import sha256
 from pathlib import Path
 from PIL import Image
 
@@ -47,10 +48,27 @@ class CatalogTests(unittest.TestCase):
         self.write([self.add()])
         site = self.root / "site"
         site.mkdir()
-        (site / "index.html").write_text("<title>Gallery</title>", encoding="utf-8")
+        (site / "index.html").write_text(
+            '<link href="./gallery.css"><script src="./gallery.js"></script>', encoding="utf-8")
+        css = site / "gallery.css"
+        css.write_bytes(b"body { color: black; }")
+        js = site / "gallery.js"
+        js.write_bytes(b"console.log('Gallery');")
         build(self.root)
         dist = self.root / "dist"
-        self.assertEqual((dist / "index.html").read_text(), "<title>Gallery</title>")
+        index = dist / "index.html"
+        before = index.read_text(encoding="utf-8")
+        css_version = sha256(css.read_bytes()).hexdigest()[:16]
+        js_version = sha256(js.read_bytes()).hexdigest()[:16]
+        self.assertIn(f'./gallery.css?v={css_version}', before)
+        self.assertIn(f'./gallery.js?v={js_version}', before)
+
+        css.write_bytes(b"body { color: white; }")
+        build(self.root)
+        after = index.read_text(encoding="utf-8")
+        self.assertNotIn(f'./gallery.css?v={css_version}', after)
+        self.assertIn(f'./gallery.css?v={sha256(css.read_bytes()).hexdigest()[:16]}', after)
+        self.assertIn(f'./gallery.js?v={js_version}', after)
         self.assertTrue((dist / "tv/One.png").is_file())
         for name in ("logos.json", "aliases.json", "stats.json"):
             self.assertEqual((dist / "api/v1" / name).read_bytes(),

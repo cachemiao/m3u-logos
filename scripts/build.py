@@ -3,8 +3,23 @@ import json
 import shutil
 import tempfile
 from datetime import datetime, timezone
+from hashlib import sha256
 from pathlib import Path
 from catalog import ROOT, collect, key, report
+
+
+def copy_gallery(site, output):
+    shutil.copytree(site, output, dirs_exist_ok=True)
+    index = output / "index.html"
+    if not index.is_file():
+        return
+    html = index.read_text(encoding="utf-8")
+    for filename in ("gallery.css", "gallery.js"):
+        reference = f'"./{filename}"'
+        if reference in html:
+            version = sha256((output / filename).read_bytes()).hexdigest()[:16]
+            html = html.replace(reference, f'"./{filename}?v={version}"')
+    index.write_text(html, encoding="utf-8")
 
 
 def build(root=ROOT):
@@ -23,7 +38,7 @@ def build(root=ROOT):
         output = Path(temporary)
         site = root / "site"
         if site.is_dir():
-            shutil.copytree(site, output, dirs_exist_ok=True)
+            copy_gallery(site, output)
         api = output / "api/v1"
         api.mkdir(parents=True)
         for filename, content in {
