@@ -9,7 +9,7 @@
   --tint: #f9e2ef;
   --hero: #231a24;
   --hero-pink: #f9a8d4;
-  --tray: #efebf0;
+  --tray: #b0a5b2;
 }
 @media (prefers-color-scheme: dark) {
   :root {
@@ -20,7 +20,7 @@
     --line: #413543;
     --pink: #ffb3da;
     --tint: #48263c;
-    --tray: #e4dce5;
+    --tray: #a49aa7;
   }
 }
 * { box-sizing: border-box; }
@@ -85,7 +85,7 @@ button, .action { cursor: pointer; }
   aspect-ratio: 5 / 3;
   border-radius: 8px;
   background-color: var(--tray);
-  background-image: radial-gradient(#93889840 1px, transparent 1px);
+  background-image: radial-gradient(#55425b2b 1px, transparent 1px);
   background-size: 10px 10px;
   color: #463847;
 }
