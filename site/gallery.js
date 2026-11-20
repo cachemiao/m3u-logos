@@ -1,6 +1,8 @@
 const RAW_BASE = "https://raw.githubusercontent.com/cachemiao/m3u-logos/main/";
 const BATCH_SIZE = 54;
 const number = new Intl.NumberFormat("zh-CN");
+const filenameOrder = new Intl.Collator("zh-CN-u-co-pinyin", { numeric: true, sensitivity: "base" });
+const startsWithHan = /^\p{Script=Han}/u;
 
 const search = document.querySelector("#search");
 const grid = document.querySelector("#grid");
@@ -18,6 +20,7 @@ const copyStatus = document.querySelector("#copy-status");
 const copyTimers = new WeakMap();
 
 let entries = [];
+let allByFilename = [];
 let matches = [];
 let category = "all";
 let rendered = 0;
@@ -39,6 +42,11 @@ function prepare(logo) {
   const file = segments.at(-1);
   const terms = [logo.name, file, logo.category, ...logo.aliases].map(normalize);
   return { logo, file, terms, compactTerms: terms.map(compact), local: "./" + encoded, raw: RAW_BASE + encoded };
+}
+
+function compareFilenames(a, b) {
+  return Number(startsWithHan.test(a.file)) - Number(startsWithHan.test(b.file)) ||
+    filenameOrder.compare(a.file, b.file);
 }
 
 function setImage(container, entry) {
@@ -132,7 +140,8 @@ function filter() {
   clearTimeout(searchTimer);
   if (!loaded) return;
   const tokens = normalize(search.value).split(/\s+/).filter(Boolean).map(value => [value, compact(value)]);
-  matches = entries.filter(entry =>
+  const catalog = category === "all" ? allByFilename : entries;
+  matches = catalog.filter(entry =>
     (category === "all" || category === entry.logo.category) &&
     tokens.every(([value, joined]) => entry.terms.some(term => term.includes(value)) ||
       (joined && entry.compactTerms.some(term => term.includes(joined))))
@@ -189,6 +198,7 @@ async function loadCatalog() {
     const data = await response.json();
     if (!Array.isArray(data.logos)) throw new Error("Invalid catalog");
     entries = data.logos.map(prepare);
+    allByFilename = [...entries].sort(compareFilenames);
     const tv = entries.filter(entry => entry.logo.category === "tv").length;
     document.querySelector("#tv-total").textContent = number.format(tv);
     document.querySelector("#radio-total").textContent = number.format(entries.length - tv);

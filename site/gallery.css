@@ -9,7 +9,6 @@
   --tint: #f9e2ef;
   --hero: #231a24;
   --hero-pink: #f9a8d4;
-  --tray: #b0a5b2;
 }
 @media (prefers-color-scheme: dark) {
   :root {
@@ -20,7 +19,6 @@
     --line: #413543;
     --pink: #ffb3da;
     --tint: #48263c;
-    --tray: #a49aa7;
   }
 }
 * { box-sizing: border-box; }
@@ -84,10 +82,10 @@ button, .action { cursor: pointer; }
   width: 100%;
   aspect-ratio: 5 / 3;
   border-radius: 8px;
-  background-color: var(--tray);
-  background-image: radial-gradient(#55425b2b 1px, transparent 1px);
+  background-color: #29272b;
+  background-image: radial-gradient(#ffffff1a 1px, transparent 1px);
   background-size: 10px 10px;
-  color: #463847;
+  color: #e5dce6;
 }
 .preview img { display: block; width: 100%; height: 100%; object-fit: contain; }
 .unavailable { position: absolute; inset: 0; display: grid; place-items: center; padding: 3px; text-align: center; font-size: .75rem; }
