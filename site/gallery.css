@@ -35,10 +35,13 @@ button, .action { cursor: pointer; }
 :focus-visible { outline: 2px solid var(--pink); outline-offset: 2px; }
 .shell { width: min(100% - 32px, 1280px); margin-inline: auto; }
 .top { border-bottom: 1px solid var(--line); background: var(--surface); }
-.top-inner { display: flex; align-items: center; justify-content: space-between; min-height: 64px; }
+.top-inner { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; column-gap: 12px; min-height: 64px; }
 .brand, .repo-link { display: inline-flex; align-items: center; gap: 9px; min-height: 44px; text-decoration: none; font-weight: 700; }
 .mark { display: grid; place-items: center; width: 29px; height: 29px; border-radius: 8px; background: #f9a8d4; color: #251923; font-size: 13px; }
-.repo-link { color: var(--muted); font-size: .875rem; }
+.top-links { display: flex; flex-wrap: wrap; column-gap: clamp(10px, 2vw, 20px); }
+.repo-link { gap: 4px; color: var(--muted); font-size: .875rem; }
+.studio-link { color: var(--pink); }
+.studio-link:hover { text-decoration: underline; }
 .hero {
   display: flex;
   align-items: flex-end;
